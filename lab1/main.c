@@ -23,13 +23,33 @@ float inner2(float* x, float* y, int n){
 
 int main() {
     printf("Hello, World!\n");
-    int N = 8;
-    float *vectorA = malloc(sizeof(float) * N);
-    float *vectorB = malloc(sizeof(float) * N);
-    for (int i = 0; i < N; ++i){
-     vectorA[i] = (float)i;
-     vectorB[i] = (float)2*(float)i;
+    int N = 4;
+    //float *vectorA = malloc(sizeof(float) * N);
+    //float *vectorB = malloc(sizeof(float) * N);
+    float vectorA[] = {2, 4, 6, 8, 10, 12, 14, 16};
+    float vectorB[] = {2, 2, 2, 2, 2, 2, 2, 2};
+    /*for (int i = 0; i < N; ++i){
+       vectorA[i] = (float)i;
+       vectorB[i] = (float)2*(float)i;
+    }*/
+    __m128 *xx, *yy;
+    __m128 p, x, y, z;
+    xx = (__m128*)vectorA;
+    yy = (__m128*)vectorB;
+
+    /*for(long long i=0; i<100000000000; ++i){
+        _mm_div_ps(xx[0],yy[0]);
+    }*/
+
+    for(long long i=0; i<1000000000; ++i){
+        x = _mm_div_ps(xx[0],yy[0]);
+        y = _mm_div_ps(xx[4],yy[4]);
+        z = x/y;
+
     }
-    inner2(vectorA, vectorB, N);
+    float sum;
+    _mm_store_ss(&sum,z);
+    printf("%f", sum);
+    //inner2(vectorA, vectorB, N);
     return 0;
 }
